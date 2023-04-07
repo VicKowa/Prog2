@@ -1,4 +1,4 @@
-package aufgabe2;
+package Woche1.aufgabe2;
 
 public class Main {
     public static void main(String[] args) {

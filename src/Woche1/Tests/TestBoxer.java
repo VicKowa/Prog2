@@ -1,6 +1,6 @@
-package Tests;
+package Woche1.Tests;
 
-import aufgabe3.Boxer;
+import Woche1.aufgabe3.Boxer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
