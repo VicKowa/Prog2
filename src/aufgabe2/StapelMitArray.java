@@ -54,4 +54,19 @@ public class StapelMitArray implements Stapel{
         }
 
     }
+
+    public void applyToAll(Funktion func) {
+
+        int[] inArray = new int[capacity()]; //internes Array
+        for (int i = stack.length - 1; i >= 0; i--) {
+
+            inArray[i] = func.auswerten(remove());
+        }
+
+        for (int j : inArray) {
+
+            insert(j);
+        }
+
+    }
 }

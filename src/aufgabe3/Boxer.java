@@ -19,12 +19,12 @@ public class Boxer extends Person {
 	public boolean equals(Person p) {
 		Boxer b = null;
 
-		if(p instanceof Boxer) {
+		if(p instanceof Boxer & p != null) {
 			b = (Boxer) p;
+			return (super.equals(p) & this.gewicht == b.getGewicht());
+		} else {
+			return false;
 		}
-		assert b != null;
-		return (super.equals(p) & this.gewicht == b.getGewicht());
-
 
 	}
 }

@@ -24,9 +24,11 @@ public class Person {
 	}
 	
 	public boolean equals(Person p) {
+		if (p != null) {
+			return this.name.equals(p.getName()) &
+					this.vorname.equals(p.getVorname());
+		} else return false;
 
-		return this.name.equals(p.getName()) &
-				this.vorname.equals(p.getVorname());
 
 	}
 }

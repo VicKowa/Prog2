@@ -19,12 +19,13 @@ public class Student extends Person{
 	}
 	
 	public boolean equals(Person p) {
+
 		Student s = null;
 
-		if(p instanceof Student) {
+		if(p instanceof Student & p != null) {
 			s = (Student) p;
-		}
-		assert s != null;
-		return super.equals(p) & this.matrikelnummer == s.getMatrikelnummer();
+			return super.equals(p) & this.matrikelnummer == s.getMatrikelnummer();
+		} else return false;
+
 	}
 }

@@ -30,9 +30,7 @@ public class StapelMitArrayTest {
     void testInsertRemove() {
         assertThrows(NoSuchElementException.class, () -> stapel.remove(), "No remove");
 
-        for(int i = 0; i < stapel.capacity(); i++) {
-            stapel.insert(ar[i]);
-        }
+        fill();
 
         assertThrows(IllegalStateException.class, () -> stapel.insert(1), "No insert");
 
@@ -71,6 +69,33 @@ public class StapelMitArrayTest {
             stapel.insert(1);
             assertEquals(1, stapel.top());
 
+
+    }
+
+    void fill() {
+        for(int i = 0; i < stapel.capacity(); i++) {
+            stapel.insert(ar[i]);
+        }
+    }
+
+    @Test
+    void testApplytoAll() {
+
+        fill();
+
+        stapel.applyToAll((value) ->  value * 2);
+
+        for (int i = ar.length-1; i >= 0; i--) {
+            assertEquals(ar[i]* 2, stapel.remove());
+        }
+
+        fill();
+
+        stapel.applyToAll((value) ->  value * value);
+
+        for (int i = ar.length-1; i >= 0; i--) {
+            assertEquals(ar[i] * ar[i], stapel.remove());
+        }
 
     }
 
