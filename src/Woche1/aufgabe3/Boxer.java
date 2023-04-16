@@ -15,6 +15,10 @@ public class Boxer extends Person {
 		
 		return gewicht;
 	}
+
+	public String toString() {
+		return super.toString() + ", " + gewicht;
+	}
 	
 	public boolean equals(Person p) {
 		Boxer b = null;
