@@ -11,14 +11,14 @@ public class GenericsFehler{
 		mo.set(s1);// dem Object wird ein String zugewiesen
 		String s2 = (String) mo.get(); //mo.get liefert ein object, indem Fall das String object welches dann gecastet wird
 	 //       Integer i2 = (Integer) mo.get();//mo liefert ein object, welches, indem Fall ein string enthält, welches dann zum Integer gecastet wird was nicht möglich ist
-		
+		//Laufzeitfehler
 
 		mg.set(s1);//dem GenericObject mit String als parameter wird ein String gesetzt (Möglich)
-	//	mg.set(i1);//dem GenericObject mit String als parameter wird ein Integer zugewiesen nicht möglich
+	//	mg.set(i1);//dem GenericObject mit String als parameter wird ein Integer zugewiesen nicht möglich//compilerfehler
 		String s3 = mg.get();// einer String variable wird ein Stringobject des Generic Objects zugewiesen
 
 		//Integer i3 = (Integer)mg.get();// einer Integer varible wird versucht ein String zuzuweisen geht nicht String kann nicht zu integer gecastet werden
-
+		//vcompilerfehler
 
 	}
 }
