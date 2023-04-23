@@ -7,7 +7,7 @@ public class EVL <T>{
     private int size = 0;
 
 
-    public T getFirst() throws NullPointerException {
+    public T getFirst() throws NoSuchElementException {
         if(first == null) {
             throw new NullPointerException();
         } else {
@@ -36,6 +36,7 @@ public class EVL <T>{
 
         if (size == 0) {
             first = newEl;
+            size++;
         } else {
             ListenEl temp = first;
             while (temp.next != null) {
@@ -57,7 +58,7 @@ public class EVL <T>{
         } else {
             T e;
             ListenEl temp = first;
-            for (int i = 1; i < size; i++){
+            for (int i = 1; i < size-1; i++){
                 temp = temp.next;
             }
             e = temp.next.data;
@@ -76,24 +77,30 @@ public class EVL <T>{
                 if (e.equals(temp.data)) {
                     return true;
                 }
+                temp = temp.next;
             }
             return false;
         }
     }
 
     public String toString() {
-        String ausgabe = "";
-        ListenEl e = first;
-
-        if(e.next == null) {
-            return ausgabe + "-" + e.data;
+        ListenEl temp = first;
+        if(temp == null) {
+            return null;
+        } else if (temp.next == null) {
+            return temp.data.toString();
         } else {
-
+            return temp.data + toString(temp.next);
         }
 
     }
     public String toString(ListenEl el) {
-
+        ListenEl temp = el;
+        if (el.next == null) {
+            return "-" + temp.data.toString();
+        } else {
+            return "-" + temp.data.toString() + toString(temp.next);
+        }
     }
 
     public int size() {
