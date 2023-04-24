@@ -160,7 +160,7 @@ public class EVL <T>{
         return size;
     }
 
-    class ListenEl {
+    private class ListenEl {
         T data;
         ListenEl next;
 
