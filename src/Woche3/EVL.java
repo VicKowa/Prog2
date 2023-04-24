@@ -1,5 +1,6 @@
 package Woche3;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.NoSuchElementException;
 
 public class EVL <T>{
@@ -13,6 +14,58 @@ public class EVL <T>{
         } else {
             return first.data;
         }
+
+    }
+
+    public void addFirst(T e) {
+        ListenEl temp = new ListenEl(e);
+        if (first == null) {
+            first = temp;
+        } else {
+            temp.next = first;
+            first = temp;
+        }
+        size++;
+    }
+
+    public T removeFirst() throws NoSuchElementException {
+
+        if (first == null) {
+            throw new NoSuchElementException();
+        } else {
+           ListenEl temp;
+           temp = first;
+           first = first.next;
+           size--;
+           return temp.data;
+        }
+    }
+
+    public void zip(EVL<T> other) {
+
+        ListenEl temp1, temp2;
+        temp1 = first;
+        if(this.size() == 0) {
+            while(other.size() > 0) {
+                this.addLast(other.removeFirst());
+            }
+        } else {
+                temp2 = temp1.next;
+
+                while( temp2 != null) {
+                    ListenEl otherEL = new ListenEl(other.removeFirst());
+                    temp1.next = otherEL;
+                    otherEL.next = temp2;
+                    temp1 = temp2;
+                    temp2 = temp1.next;
+                }
+
+                while (other.size != 0) {
+                    this.addLast(other.removeFirst());
+                }
+        }
+
+
 
     }
 

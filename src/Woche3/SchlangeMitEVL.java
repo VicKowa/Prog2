@@ -38,23 +38,8 @@ public class SchlangeMitEVL<T> implements Schlange<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public T remove() throws NoSuchElementException {
-        if (isEmpty()) {
-            throw new NoSuchElementException();
-        } else {
-            T[] memory = (T[]) new Object[schlange.size()];
-            T output;
-            for (int i = memory.length - 1; i > 0; i--) {
-                memory[i] = schlange.removeLast();
-            }
-            output = schlange.removeLast();
-            for (int i = 1; i < memory.length; i++) {
-                schlange.addLast(memory[i]);
-            }
-            return output;
-        }
-
+        return schlange.removeFirst();
     }
 
     @Override

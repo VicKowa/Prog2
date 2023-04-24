@@ -13,8 +13,13 @@ public class TestEVL {
 
     EVL<String> evlst = new EVL<>();
     EVL<Integer> evlint = new EVL<>();
+    EVL<Integer> evl2 = new EVL<>();
+    EVL<Integer> evl = new EVL<>();
+    EVL<Integer> evl3 = new EVL<>();
     String[] ar = {"Peter", "Maria" ,"Joseph", "Jona"};
     int[] feld = {1,2,3,4,5,6,7,8,9};
+    int[] a1 = {4,1,7};
+    int[] a2 = {3,5,2,8,6};
 
     @BeforeEach
     void setup() {
@@ -23,6 +28,13 @@ public class TestEVL {
         }
         for (int i = 0; i < ar.length; i++) {
             evlst.addLast(ar[i]);
+        }
+
+        for (int i = 0; i < a1.length; i++) {
+            evl.addLast(a1[i]);
+        }
+        for (int i = 0; i < a2.length; i++) {
+            evl2.addLast(a2[i]);
         }
 
 
@@ -43,6 +55,15 @@ public class TestEVL {
     void testGetLast() {
         assertEquals(evlst.getLast(),"Jona");
         assertEquals(evlint.getLast(), 9);
+    }
+
+    @Test
+    void testZip() {
+        evl.zip(evl2);
+        evl3.zip(evl);
+        assertEquals("3-5-2-8-6", evl3.toString());
+        assertEquals("4-3-1-5-7-2-8-6",evl.toString() );
+
     }
 
     @Test
