@@ -29,36 +29,43 @@ public class RDVL<T> {
         ListenEL temp = new ListenEL(e);
         if(entry == null) {
             entry = temp;
-            temp.next = temp;
-            temp.previous = temp;
+            entry.next = entry;
+            entry.previous = entry;
         } else {
-            ListenEL temp2 = entry.previous;
-            entry.previous = temp;
-            temp2.next = temp;
-            temp.previous = temp2;
-
+            entry.next.previous = temp;
+            temp.next = entry.next;
+            entry.next = temp;
+            temp.previous = entry;
 
         }
+        size++;
 
     }
 
     public T remove() throws NoSuchElementException {
-
+        ListenEL rm = null;
         if(entry == null) {
             throw new NoSuchElementException();
+        } else if (size == 1) {
+            rm = entry;
+            entry = null;
         } else {
-            ListenEL rm = entry;
-            ListenEL temp = entry.previous;
-            ListenEL temp2 = entry.next;
+            ListenEL temp = entry.next;
+            ListenEL temp2 = entry.previous;
+            rm = entry;
+            entry = entry.next;
+            temp2.next = temp;
+            temp.previous = temp2;
 
-            temp.next = temp2;
-            temp2.previous = temp;
-            size--;
-            return entry.data;
         }
+
+        size--;
+        return rm.data;
     }
     public T element() {
-        return entry.data;
+        if(entry == null) {
+            return null;
+        } else return entry.data;
     }
 
     public void next(int s) throws NoSuchElementException {
@@ -66,11 +73,9 @@ public class RDVL<T> {
         if (size == 0) {
             throw new NoSuchElementException();
         } else {
-            ListenEL temp = null;
             for (int i = 0; i < s; i++) {
-                temp = entry.next;
+                entry = entry.next;
             }
-            entry = temp;
         }
     }
 
@@ -79,11 +84,27 @@ public class RDVL<T> {
         if (size == 0) {
             throw new NoSuchElementException();
         } else {
-            ListenEL temp = null;
             for (int i = 0; i < s; i++) {
-                temp = entry.previous;
+                entry = entry.previous;
             }
-            entry = temp;
         }
+    }
+    public T previous() {
+        return entry.previous.data;
+    }
+    public T next() {
+        return entry.next.data;
+    }
+
+    @Override
+    public String toString() {
+        ListenEL first = entry;
+        ListenEL temp = entry;
+        String ausgabe = entry.data.toString();
+        while (temp.next != first) {
+            ausgabe += ", " + temp.next.data.toString();
+            temp = temp.next;
+        }
+        return ausgabe;
     }
 }
