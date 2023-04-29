@@ -1,6 +1,6 @@
-package Woche3.Tests;
+package Woche4.Tests;
 
-import Woche3.SchlangeMitEVL;
+import Woche4.SchlangeMitEVL;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

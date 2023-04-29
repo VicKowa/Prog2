@@ -1,4 +1,4 @@
-package Woche3;
+package Woche4;
 
 public class Josephus {
 

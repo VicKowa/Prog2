@@ -1,7 +1,7 @@
-package Woche3.Tests;
+package Woche4.Tests;
 
 import Woche2.aufgabe3.SchlangeMitArray;
-import Woche3.SchlangeMitEVL;
+import Woche4.SchlangeMitEVL;
 
 public class TimeTestSchlange {
     public static void main(String[] args) {
