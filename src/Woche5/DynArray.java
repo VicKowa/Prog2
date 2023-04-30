@@ -49,7 +49,7 @@ public class DynArray<T> {
      * @throws NullPointerException      falls die Position leer ist
      */
     public T get(int pos) throws InvalidParameterException, NullPointerException {
-        if (pos < 0) {
+        if (pos < 0 | pos >= capacity) {
             throw new InvalidParameterException();
         } else if (darray[pos] == null) {
             throw new NullPointerException();
@@ -68,7 +68,7 @@ public class DynArray<T> {
      * @throws NullPointerException      falls die Position leer ist, weil nur überschreiben erlaubt
      */
     public T set(int pos, T e) throws InvalidParameterException, NullPointerException {
-        if (pos < 0) {
+        if (pos < 0 | pos >= capacity) {
             throw new InvalidParameterException();
         } else if (darray[pos] == null) {
             throw new NullPointerException();
@@ -124,10 +124,7 @@ public class DynArray<T> {
             darray[size++] = e;
             capacity *= 2;
         }
-
-
     }
-
 
     /**
      * löscht den ersten Wert im Array und gibt den Wert zurück
@@ -170,6 +167,7 @@ public class DynArray<T> {
             }
             capacity /= 2;
             darray = newArray;
+            darray[size - 1] = null;
         } else {
             darray[size - 1] = null;
         }

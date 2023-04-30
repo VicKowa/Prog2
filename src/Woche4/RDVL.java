@@ -58,7 +58,6 @@ public class RDVL<T> {
             temp.previous = temp2;
 
         }
-
         size--;
         return rm.data;
     }

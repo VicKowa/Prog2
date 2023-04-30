@@ -8,6 +8,7 @@ public class Josephus {
         for (int i = n; i > 1; i--) {
             rdvl.add(i);
         }
+        System.out.println(rdvl);
 
         while (rdvl.size() > 1) {
             rdvl.next(k-1);
@@ -17,6 +18,6 @@ public class Josephus {
     }
 
     public static void main(String[] args) {
-        System.out.println(loese(1,1));
+        System.out.println(loese(50,21));
     }
 }

@@ -92,7 +92,6 @@ public class TestDynArray {
         }
         for (int i = ar.length - 1; i >= 0; i--) {
             assertEquals(ar[i], dynArray.removeLast());
-
         }
     }
 
