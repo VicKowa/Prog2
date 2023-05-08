@@ -23,8 +23,8 @@ public class Ringpuffer<T> {
         return size;
     }
 
-    public T get(int pos) throws InvalidParameterException {
-        if(puffer[pos] == null) {
+    public T get(int pos) throws 
+		if(pos < 0 | pos >= size) {
             throw new InvalidParameterException();
         } else {
             return puffer[pos];
