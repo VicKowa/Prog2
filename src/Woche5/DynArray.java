@@ -1,6 +1,5 @@
 package Woche5;
 
-import java.security.InvalidParameterException;
 import java.util.NoSuchElementException;
 
 /**
@@ -45,17 +44,12 @@ public class DynArray<T> {
      *
      * @param pos position, welche ausgegeben werden soll
      * @return gibt den Inhalt des Arrays an pos zurück
-     * @throws InvalidParameterException falls ein nicht erlaubter index übergeben wird
-     * @throws NullPointerException      falls die Position leer ist
+     * @throws IndexOutOfBoundsException falls ein nicht erlaubter index übergeben wird
      */
-    public T get(int pos) throws InvalidParameterException, NullPointerException {
-        if (pos < 0 | pos >= capacity) {
-            throw new InvalidParameterException();
-        } else if (darray[pos] == null) {
-            throw new NullPointerException();
-        } else {
-            return darray[pos];
-        }
+    public T get(int pos) throws IndexOutOfBoundsException {
+        exceptionPosCheck(pos);
+        return darray[pos];
+
     }
 
     /**
@@ -64,19 +58,14 @@ public class DynArray<T> {
      * @param pos position, wo überschrieben werden soll
      * @param e   neuer Wert, welcher eingefügt werden soll
      * @return gibt alten Wert zurück
-     * @throws InvalidParameterException falls ein nicht erlaubter index übergeben wird
-     * @throws NullPointerException      falls die Position leer ist, weil nur überschreiben erlaubt
+     * @throws IndexOutOfBoundsException falls ein nicht erlaubter index übergeben wird
      */
-    public T set(int pos, T e) throws InvalidParameterException, NullPointerException {
-        if (pos < 0 | pos >= capacity) {
-            throw new InvalidParameterException();
-        } else if (darray[pos] == null) {
-            throw new NullPointerException();
-        } else {
-            T temp = darray[pos];
-            darray[pos] = e;
-            return temp;
-        }
+    public T set(int pos, T e) throws IndexOutOfBoundsException {
+        exceptionPosCheck(pos);
+        T temp = darray[pos];
+        darray[pos] = e;
+        return temp;
+
     }
 
     /**
@@ -85,94 +74,119 @@ public class DynArray<T> {
      *
      * @param e neuer Wert
      */
-    @SuppressWarnings("unchecked")
+
     public void addFirst(T e) {
-        if (size + 1 <= capacity) {
-            for (int i = darray.length - 1; i > 0; i--) {
-                if (darray[i - 1] != null) {
-                    darray[i] = darray[i - 1];
-                }
-            }
-            darray[0] = e;
-        } else {
-            T[] newArray = (T[]) new Object[capacity * 2];
-            newArray[0] = e;
-            for (int i = 0; i < darray.length; i++) {
-                newArray[i+1] = darray[i];
-            }
-            darray = newArray;
-            capacity *= 2;
+
+        if (size == capacity) {
+            increase();
         }
+        for (int i = darray.length - 1; i > 0; i--) {
+            if (darray[i - 1] != null) {
+                darray[i] = darray[i - 1];
+            }
+        }
+        darray[0] = e;
         size++;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void increase() {
+        T[] newArray = (T[]) new Object[capacity * 2];
+        for (int i = 0; i < size; i++) {
+            newArray[i] = darray[i];
+        }
+        darray = newArray;
+        capacity *= 2;
     }
 
     /**
      * fügt den neuen Inhalt hinter dem letzten Wert des Arrays ein
+     *
      * @param e Wert der eingefügt werden soll
      */
     @SuppressWarnings("unchecked")
     public void addLast(T e) {
-        if(size + 1 <= capacity) {
-            darray[size++] = e;
-        } else {
-            T[] newArray = (T[]) new Object[capacity * 2];
-            for (int i = 0; i < darray.length; i++) {
-                newArray[i] = darray[i];
-            }
-
-            darray = newArray;
-            darray[size++] = e;
-            capacity *= 2;
+        if (size == capacity) {
+            increase();
         }
+        darray[size++] = e;
     }
 
     /**
      * löscht den ersten Wert im Array und gibt den Wert zurück
+     *
      * @return Wert der gelöscht wird
      * @throws NoSuchElementException falls das Array leer ist
      */
-    @SuppressWarnings("unchecked")
+
     public T removeFirst() throws NoSuchElementException {
         T temp = darray[0];
         if (size <= 0) {
             throw new NoSuchElementException();
-        } else if (((double)(size - 1) / capacity) <= ((double) 1 / 4)) {
+        } else if (((size - 1.0) / capacity) <= (1.0 / 4.0)) {
+            decrease();
+        }
 
-            T[] newArray = (T[]) new Object[capacity / 2];
-
-            for (int i = 0; i < newArray.length; i++) {
-                newArray[i] = darray[i+1];
-            }
-            capacity /= 2;
-            darray = newArray;
-        } else {
-            for (int i = 0; i < darray.length - 1; i++) {
-                darray[i] = darray[i+1];
-            }
+        for (int i = 0; i < darray.length - 1; i++) {
+            darray[i] = darray[i + 1];
         }
         size--;
         return temp;
     }
+
     @SuppressWarnings("unchecked")
-    public T removeLast() throws  ArrayIndexOutOfBoundsException{
+    private void decrease() {
+        T[] newArray = (T[]) new Object[capacity / 2];
+
+        for (int i = 0; i < newArray.length; i++) {
+            newArray[i] = darray[i];
+        }
+        capacity /= 2;
+        darray = newArray;
+    }
+
+    public T removeLast() throws IndexOutOfBoundsException {
         T temp = darray[size - 1];
         if (size <= 0) {
-            throw new ArrayIndexOutOfBoundsException();
-        } else if (((double)(size - 1) / capacity) <= ((double) 1 / 4)) {
+            throw new IndexOutOfBoundsException();
+        } else if (((size - 1.0) / capacity) <= (1.0 / 4.0)) {
+            decrease();
+        }
+        darray[--size] = null;
+        return temp;
+    }
 
-            T[] newArray = (T[]) new Object[capacity / 2];
-
-            for (int i = 0; i < newArray.length; i++) {
-                newArray[i] = darray[i];
-            }
-            capacity /= 2;
-            darray = newArray;
-            darray[size - 1] = null;
-        } else {
-            darray[size - 1] = null;
+    public T remove(int pos) throws IndexOutOfBoundsException {
+        exceptionPosCheck(pos);
+        if (((size - 1.0) / capacity) <= (1.0 / 4.0)) {
+            decrease();
+        }
+        T temp = darray[pos];
+        for (int i = pos; i < darray.length-1 ; i++) {
+            darray[pos] = darray[pos+1];
         }
         size--;
         return temp;
+    }
+
+    public void insert(int pos, T e) throws IndexOutOfBoundsException {
+        exceptionPosCheck(pos);
+        if (size == capacity) {
+            increase();
+        }
+        for (int i = size-1; i >= pos; i--) {
+            darray[i+1] = darray[i];
+        }
+        darray[pos] = e;
+        size++;
+    }
+
+
+
+    private void exceptionPosCheck(int pos) throws IndexOutOfBoundsException {
+        if (pos < 0 | pos >= size) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     public String toString() {

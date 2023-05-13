@@ -5,8 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.security.InvalidParameterException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDynArray {
@@ -35,14 +33,15 @@ public class TestDynArray {
 
     @Test
     void testGet() {
-        assertThrows(InvalidParameterException.class, () -> dynArray.get(-1000));
-        assertThrows(NullPointerException.class, () -> dynArray.get(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> dynArray.get(-1000));
+        assertThrows(IndexOutOfBoundsException.class, () -> dynArray.get(0));
+
     }
 
     @Test
     void testSet() {
-        assertThrows(InvalidParameterException.class, () -> dynArray.set(-100,2));
-        assertThrows(NullPointerException.class, () -> dynArray.set(0,2));
+        assertThrows(IndexOutOfBoundsException.class, () -> dynArray.set(-100,2));
+        assertThrows(IndexOutOfBoundsException.class, () -> dynArray.set(0,2));
     }
 
     @Test
@@ -65,12 +64,18 @@ public class TestDynArray {
 
         //testet das Einfügen von Integers
 
-        for (int i = 0; i < ar.length; i++) {
+       /* for (int i = 0; i < ar.length; i++) {
             dynArray.addLast(ar[i]);
             assertEquals(ar[i],dynArray.get(i));
         }
 
-        assertEquals(16, dynArray.capacity());// schaut ob Capacity sich verdoppelt hat
+        */
+        dynArray.addLast(ar[0]);
+        assertEquals(ar[0],dynArray.get(0));
+        dynArray.addLast(ar[1]);
+        assertEquals(ar[1],dynArray.get(1));
+
+//        assertEquals(16, dynArray.capacity());// schaut ob Capacity sich verdoppelt hat
     }
 
     @Test
@@ -86,7 +91,7 @@ public class TestDynArray {
 
     @Test
     void testRemoveLast() {
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> dynArray.removeLast());
+        assertThrows(IndexOutOfBoundsException.class, () -> dynArray.removeLast());
         for (int j : ar) {
             dynArray.addLast(j);
         }

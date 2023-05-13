@@ -1,11 +1,8 @@
 package Woche5;
 
-import java.security.InvalidParameterException;
-
 public class Ringpuffer<T> {
 
     private int front;
-    private int back;
     private final int capacity;
     private int size;
     private T[] puffer;
@@ -16,27 +13,31 @@ public class Ringpuffer<T> {
         puffer = (T[]) new Object[capacity];
         this.capacity = capacity;
         this.size = 0;
-        front = -1;
-        back = -1;
+        front = 0;
     }
+
+    public int capacity() {
+        return puffer.length;
+    }
+
     public int size() {
         return size;
     }
 
-    public T get(int pos) throws 
-		if(pos < 0 | pos >= size) {
-            throw new InvalidParameterException();
+    public T get(int pos) throws IndexOutOfBoundsException {
+        if (pos < 0 | (pos > size)) {
+            throw new IndexOutOfBoundsException();
         } else {
-            return puffer[pos];
+            return puffer[calcback(pos-1)];
         }
     }
 
-    public T set(int pos, T e) throws InvalidParameterException {
-        if(puffer[pos] == null) {
-            throw new InvalidParameterException();
+    public T set(int pos, T e) throws NullPointerException {
+        if (pos < 0 | (pos > size)) {
+            throw new NullPointerException();
         } else {
-            T temp = puffer[pos];
-            puffer[pos] = e;
+            T temp = puffer[calcback(pos-1)];
+            puffer[calcback(pos -1)] = e;
             return temp;
         }
 
@@ -44,75 +45,88 @@ public class Ringpuffer<T> {
     }
 
     public void addFirst(T e) throws NoCapacityInArray {
-        if(size == 0) {
-            front = 0;
-            back = 0;
-            puffer[0] = e;
-            size++;
-            return;
-        }
-
-        if(size + 1 <= capacity) {
-            if (front == 0) {
-                puffer[capacity-1] = e;
-                front = capacity-1;
-
-            } else if(front <= capacity-1) {
-                puffer[--front] = e;
-            }
-            size++;
-        } else {
+        if (size == capacity) {
             throw new NoCapacityInArray();
         }
+        front = (front - 1 + capacity) % capacity;
+        puffer[front] = e;
+        size++;
+
     }
 
     public void addLast(T e) throws NoCapacityInArray {
-        if(size == 0) {
-            front = 0;
-            back = 0;
-            puffer[0] = e;
-            size++;
-            return;
-        }
-        if(size + 1 <= capacity) {
-            if(back < capacity-1) {
-                puffer[back+1] = e;
-                back++;
-            } else if (back == capacity-1){
-                puffer[0] = e;
-                back = 0;
-            }
-            size++;
-        } else {
+        if (size == capacity) {
             throw new NoCapacityInArray();
         }
+        puffer[calcback(size)] = e;
+        size++;
     }
 
     public T removeFirst() throws IndexOutOfBoundsException {
-        if(size <= 0) {
+        if (size <= 0) {
             throw new IndexOutOfBoundsException();
-        } else {
-            T temp = puffer[front];
-            puffer[front] = null;
-            if(front + 1 > capacity - 1) {
-                front = 0;
-            } else front++;
-            size--;
-            return temp;
         }
+        T temp = puffer[front];
+        puffer[front] = null;
+        front = (front + 1) % capacity;
+        size--;
+        return temp;
     }
 
     public T removeLast() throws IndexOutOfBoundsException {
-        if(size <= 0) {
+        if (size <= 0) {
             throw new IndexOutOfBoundsException();
-        } else {
-            T temp = puffer[back];
-            puffer[back] = null;
-            if((back - 1) < 0) {
-                back = capacity-1;
-            } else back--;
-            size--;
-            return temp;
         }
+        size--;
+        T temp = puffer[calcback(size)];
+        puffer[calcback(size)] = null;
+        return temp;
+
+    }
+
+    public T remove(int pos) throws IndexOutOfBoundsException {
+        if(pos < 0 | pos > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        T temp = get(pos);
+        for (int i = pos; i < size; i++) {
+            set(i, get(i+1));
+        }
+        size--;
+        return temp;
+
+    }
+
+    public void insert(int pos, T e) throws IndexOutOfBoundsException, NoCapacityInArray {
+        if(pos < 0 | pos > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if(capacity == size) {
+            throw new NoCapacityInArray();
+        }
+        //hinterstes El doppelt anfügen
+        addLast(get(size));// in addLast wird size++ aufgerufen
+
+        for (int i = size-2; i >= pos; i--) {
+            set(i, get(i+1));
+        }
+        set(pos, e);
+
+    }
+
+    private int calcback(int pos) {
+        return (front + pos) % capacity;
+    }
+
+    @Override
+    public String toString() {
+        String output = "(";
+        output += get(1);
+        for (int i = 2; i <= size; i++) {
+            output += ", ";
+           output += get(i);
+
+        }
+        return output +")";
     }
 }
