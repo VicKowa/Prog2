@@ -28,8 +28,8 @@ public class TestFolgeMitDynArray {
         for (int j: ar) {
             f.insert(j);
         }
-        f.insert(1,1);
-        f.insert(6,232);
+        f.insert(0,1);
+        f.insert(5,232);
         assertThrows(IndexOutOfBoundsException.class,() -> f.insert(9, 20));
         assertEquals(1, f.get(1));
         assertEquals(232,f.get(6));

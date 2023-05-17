@@ -20,7 +20,7 @@ public class TestRingpuffer {
     
     @Test
     void testAddFirst() {
-        int z = 5;
+        int z = 4;
         for (int j : ar) {
             ring.addFirst(j);
         }
@@ -38,7 +38,7 @@ public class TestRingpuffer {
         }
         assertThrows(NoCapacityInArray.class, () -> ring.addLast(2));
         for (int i = 0; i < ar.length; i++) {
-            assertEquals(ar[i],ring.get(i+1));
+            assertEquals(ar[i],ring.get(i));
         }
     }
 
@@ -73,15 +73,15 @@ public class TestRingpuffer {
     @Test
     void testGet() {
         ring.addLast(1);
-        assertEquals(1,ring.get(1));
+        assertEquals(1,ring.get(0));
         assertThrows(IndexOutOfBoundsException.class, () -> ring.get(2));
     }
 
     @Test
     void testSet() {
         ring.addLast(1);
-        assertEquals(1,ring.set(1,2));
-        assertEquals(2, ring.get(1));
+        assertEquals(1,ring.set(0,2));
+        assertEquals(2, ring.get(0));
         assertThrows(NullPointerException.class, () -> ring.set(2, 2));
     }
 

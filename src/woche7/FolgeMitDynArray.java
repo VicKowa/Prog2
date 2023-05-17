@@ -40,21 +40,21 @@ public class FolgeMitDynArray<T> implements Folge<T> {
 
     @Override
     public T get(int pos) throws IndexOutOfBoundsException {
-        return folge.get(pos-1);
+        return folge.get(pos);
     }
 
     @Override
     public T set(int pos, T e) throws IndexOutOfBoundsException {
-        return folge.set(pos-1, e);
+        return folge.set(pos, e);
     }
 
     @Override
     public T remove(int pos) throws IndexOutOfBoundsException {
-        return folge.remove(pos-1);
+        return folge.remove(pos);
     }
 
     @Override
     public void insert(int pos, T e) {
-        folge.insert(pos-1, e);
+        folge.insert(pos, e);
     }
 }

@@ -31,7 +31,7 @@ public class TestFolgeMitRing {
         }
 
         for (int i = 1; i < ar.length; i++) {
-            assertEquals(ar[i], f.remove(2));
+            assertEquals(ar[i], f.remove(1));
         }
 
     }
@@ -41,8 +41,8 @@ public class TestFolgeMitRing {
         for (int j: ar) {
             f.insert(j);
         }
-        for (int i = 1; i <= ar.length; i++) {
-            assertEquals(i, f.get(i));
+        for (int i = 0; i < ar.length; i++) {
+            assertEquals(ar[i], f.get(i));
         }
 
 
@@ -53,8 +53,8 @@ public class TestFolgeMitRing {
         for (int j: ar) {
             f.insert(j);
         }
-        for (int i = 1; i <= ar.length ; i++) {
-            assertEquals(i, f.set(i, i));
+        for (int i = 0; i < ar.length ; i++) {
+            assertEquals(ar[i], f.set(i, ar[i]));
         }
     }
 
@@ -64,9 +64,9 @@ public class TestFolgeMitRing {
             f.insert(ar[i]);
         }
 
-        f.insert(1, 1);
+        f.insert(0, 1);
 
         assertThrows(NoCapacityInArray.class,() -> f.insert(1, 20));
-        assertEquals(1, f.get(1));
+        assertEquals(1, f.get(0));
     }
 }

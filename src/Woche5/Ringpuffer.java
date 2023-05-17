@@ -28,7 +28,7 @@ public class Ringpuffer<T> {
         if (pos < 0 | (pos > size)) {
             throw new IndexOutOfBoundsException();
         } else {
-            return puffer[calcback(pos-1)];
+            return puffer[calcback(pos)];
         }
     }
 
@@ -36,8 +36,8 @@ public class Ringpuffer<T> {
         if (pos < 0 | (pos > size)) {
             throw new NullPointerException();
         } else {
-            T temp = puffer[calcback(pos-1)];
-            puffer[calcback(pos -1)] = e;
+            T temp = puffer[calcback(pos)];
+            puffer[calcback(pos)] = e;
             return temp;
         }
 
@@ -98,11 +98,11 @@ public class Ringpuffer<T> {
     }
 
     public void insert(int pos, T e) throws IndexOutOfBoundsException, NoCapacityInArray {
-        if(pos < 0 | pos > size) {
-            throw new IndexOutOfBoundsException();
-        }
         if(capacity == size) {
             throw new NoCapacityInArray();
+        }
+        if(pos == 0) {
+            addFirst(e);
         }
         //hinterstes El doppelt anfügen
         addLast(get(size));// in addLast wird size++ aufgerufen
