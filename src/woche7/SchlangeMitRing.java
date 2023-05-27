@@ -46,6 +46,6 @@ public class SchlangeMitRing<T> implements Schlange<T> {
         if(isEmpty()) {
             throw new NoSuchElementException();
         }
-        return r.get(1);
+        return r.get(0);
     }
 }
