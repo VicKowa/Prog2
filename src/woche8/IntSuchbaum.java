@@ -9,7 +9,6 @@ import java.util.NoSuchElementException;
 public class IntSuchbaum {
 
     private BaumEl wurzel;
-    private int size;
 
     class BaumEl {
         int data;
@@ -23,12 +22,11 @@ public class IntSuchbaum {
     }
 
     public IntSuchbaum() {
-        size = 0;
         wurzel = null;
     }
 
     public Boolean isEmpty() {
-        return size <= 0;
+        return size() <= 0;
     }
 
     public void insert(Integer i) {
@@ -39,7 +37,6 @@ public class IntSuchbaum {
             } else {
                 insert(temp, wurzel);
             }
-            size++;
         }
     }
 
@@ -80,18 +77,12 @@ public class IntSuchbaum {
         } else {
             return contains(i, node.right);
         }
-
     }
 
 
     @Override
     public String toString() {
-
-        if (size <= 0) {
-            return "";
-        } else {
-            return "(" + toString(wurzel.left) + wurzel.data + toString(wurzel.right) + ")";
-        }
+        return toString(wurzel);
     }
 
     private String toString(BaumEl node) {
@@ -103,10 +94,7 @@ public class IntSuchbaum {
     }
 
     public int hoehe() {
-        if (wurzel == null) {
-            return 0;
-        }
-        return 1 + Math.max(hoehe(wurzel.left), hoehe(wurzel.right));
+        return hoehe(wurzel);
     }
 
     private int hoehe(BaumEl e) {
@@ -118,7 +106,14 @@ public class IntSuchbaum {
     }
 
     public int size() {
-        return size;
+        return size(wurzel);
+    }
+
+    public int size(BaumEl node) {
+        if(node != null) {
+            return 1 + size(node.left) + size(node.right);
+        }
+        return 0;
     }
 
     /**
@@ -130,13 +125,7 @@ public class IntSuchbaum {
      */
     public Folge<Integer> preorder() {
         Folge<Integer> fo = new FolgeMitDynArray<>();
-        fo.insert(wurzel.data);
-        if (wurzel.left != null) {
-            preorder(wurzel.left, fo);
-        }
-        if (wurzel.right != null) {
-            preorder(wurzel.right, fo);
-        }
+        preorder(wurzel, fo);
         return fo;
     }
 
@@ -159,13 +148,7 @@ public class IntSuchbaum {
      */
     public Folge<Integer> inorder() {
         Folge<Integer> fo = new FolgeMitDynArray<>();
-        if (wurzel.left != null) {
-            inorder(wurzel.left, fo);
-        }
-        fo.insert(wurzel.data);
-        if (wurzel.right != null) {
-            inorder(wurzel.right, fo);
-        }
+        inorder(wurzel, fo);
         return fo;
     }
 
@@ -188,13 +171,7 @@ public class IntSuchbaum {
      */
     public Folge<Integer> postorder() {
         Folge<Integer> fo = new FolgeMitDynArray<>();
-        if (wurzel.left != null) {
-            postorder(wurzel.left, fo);
-        }
-        if (wurzel.right != null) {
-            postorder(wurzel.right, fo);
-        }
-        fo.insert(wurzel.data);
+        postorder(wurzel, fo);
         return fo;
     }
 
@@ -213,7 +190,7 @@ public class IntSuchbaum {
     }
 
     private Folge<Integer> breitensuche(BaumEl e) {
-        SchlangeMitRing<BaumEl> sr = new SchlangeMitRing<>(size);
+        SchlangeMitRing<BaumEl> sr = new SchlangeMitRing<>(size());
         Folge<Integer> fo = new FolgeMitDynArray<>();
         BaumEl current;
         sr.insert(e);
@@ -289,7 +266,7 @@ public class IntSuchbaum {
         } else if (i > node.data) {
             node.right = remove(i, node.right);
         } else {
-            // Fall 1: Keine Kinder
+            // Fall 1: keine Kinder
             if (node.left == null && node.right == null) {
                 node = null;
             }
