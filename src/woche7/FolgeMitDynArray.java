@@ -57,4 +57,22 @@ public class FolgeMitDynArray<T> implements Folge<T> {
     public void insert(int pos, T e) {
         folge.insert(pos, e);
     }
+
+    @Override
+    public String toString() {
+        if (size() == 0) {
+            return "()";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("(");
+            for (int i = 0; i < size(); i++) {
+                sb.append(folge.get(i));
+                if (i != size() - 1) {
+                    sb.append(", ");
+                }
+            }
+            sb.append(")");
+            return sb.toString();
+        }
+    }
 }
