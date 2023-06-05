@@ -32,28 +32,26 @@ public class Suchbaum<T> {
         }
     }
 
+	public int vergleich(T a, T b) {
+		if(comp == null) {
+			return((Comparator<T>) a).compareTo(b);
+		} else{
+			return comp.compare(a, b);
+		}
+	}
+
     public Boolean contains(T o) {
-        return (comp == null) ? containsTo(o, wurzel) : contains(o, wurzel);
+        return contains(o, wurzel);
     }
 
-    public Boolean containsTo(T o, BaumEl node) {
-        if (node == null) {
-            return false;
-        } else if (((Comparable<T>) o).compareTo(node.data) == 0) {
-            return true;
-        } else if (((Comparable<T>) o).compareTo(node.data) < 0) {
-            return containsTo(o, node.left);
-        } else {
-            return containsTo(o, node.right);
-        }
-    }
+    
 
     private Boolean contains(T o, BaumEl node) {
         if (node == null) {
             return false;
-        } else if (comp.compare(o, node.data) == 0) {
+        } else if (vergleich(o, node.data == 0) {
             return true;
-        } else if (comp.compare(o, node.data) < 0) {
+        } else if (vergleich(o, node.data) < 0) {
             return contains(o, node.left);
         } else {
             return contains(o, node.right);
@@ -69,12 +67,8 @@ public class Suchbaum<T> {
             BaumEl temp = new BaumEl(o);
             if (wurzel == null) {
                 wurzel = temp;
-            } else {
-                if (comp == null) {
-                    insertTo(temp, wurzel);
-                } else {
-                    insert(temp, wurzel);
-                }
+            } else {            
+                insert(temp, wurzel);
             }
         }
     }
@@ -85,25 +79,8 @@ public class Suchbaum<T> {
      * @param toadd BaumEl welches hinzugefügt werden soll
      * @param cNode current Knoten welcher betrachtet wird
      */
-    private void insertTo(BaumEl toadd, BaumEl cNode) {
-        if (((Comparable<T>) toadd.data).compareTo(cNode.data) < 0) {
-            if (cNode.left == null) {
-                cNode.left = toadd;
-            } else {
-                insertTo(toadd, cNode.left);
-            }
-        } else {
-            if (cNode.right == null) {
-                cNode.right = toadd;
-            } else {
-                insertTo(toadd, cNode.right);
-            }
-
-        }
-    }
-
     private void insert(BaumEl toadd, BaumEl cNode) {
-        if (comp.compare(toadd.data, cNode.data) < 0) {
+        if (vergleich(toadd.data, cNode.data) < 0) {
             if (cNode.left == null) {
                 cNode.left = toadd;
             } else {
@@ -159,26 +136,7 @@ public class Suchbaum<T> {
         if (!contains(o)) {
             throw new NoSuchElementException();
         }
-        if (comp == null) {
-            wurzel = removeTo(o, wurzel);
-        } else {
-            wurzel = remove(o, wurzel);
-        }
-    }
-
-    private BaumEl removeTo(T o, BaumEl node) {
-        if (node == null) {
-            return null;
-        }
-
-        if (((Comparable<T>) o).compareTo(node.data) < 0) {
-            node.left = removeTo(o, node.left);
-        } else if (((Comparable<T>) o).compareTo(node.data) > 0) {
-            node.right = removeTo(o, node.right);
-        } else {
-            node = removeCases(node);
-        }
-        return node;
+        wurzel = remove(o, wurzel);
     }
 
     private BaumEl remove(T o, BaumEl node) {
@@ -186,12 +144,27 @@ public class Suchbaum<T> {
             return null;
         }
 
-        if (comp.compare(o, node.data) < 0) {
+        if (vergleich(o, node.data) < 0) {
             node.left = removeTo(o, node.left);
-        } else if (comp.compare(o, node.data) > 0) {
+        } else if (vergleich(o, node.data) > 0) {
             node.right = removeTo(o, node.right);
         } else {
-            node = removeCases(node);
+           // Fall 1: keine Kinder
+        if (node.left == null && node.right == null) {
+            node = null;
+        }
+        // Fall 2: Ein Kind
+        else if (node.left == null) {
+            node = node.right;
+        } else if (node.right == null) {
+            node = node.left;
+        }
+        // Fall 3: Zwei Kinder
+		else {
+        	T maxVal = findMaxValue(node.left);
+        	node.data = maxVal;
+        	node.left = removeTo(maxVal, node.left);
+        	}
         }
         return node;
     }
@@ -204,25 +177,7 @@ public class Suchbaum<T> {
         return maxValue;
     }
 
-    private BaumEl removeCases(BaumEl node) {
-        // Fall 1: keine Kinder
-        if (node.left == null && node.right == null) {
-            node = null;
-        }
-        // Fall 2: Ein Kind
-        else if (node.left == null) {
-            node = node.right;
-        } else if (node.right == null) {
-            node = node.left;
-        }
-        // Fall 3: Zwei Kinder
-        else {
-            T maxVal = findMaxValue(node.left);
-            node.data = maxVal;
-            node.left = removeTo(maxVal, node.left);
-        }
-        return node;
-    }
+
 
     /**
      * Besuche Knoten
