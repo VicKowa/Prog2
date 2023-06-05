@@ -145,9 +145,9 @@ public class Suchbaum<T> {
         }
 
         if (vergleich(o, node.data) < 0) {
-            node.left = removeTo(o, node.left);
+            node.left = remove(o, node.left);
         } else if (vergleich(o, node.data) > 0) {
-            node.right = removeTo(o, node.right);
+            node.right = remove(o, node.right);
         } else {
            // Fall 1: keine Kinder
      		if (node.left == null && node.right == null) {
@@ -163,7 +163,7 @@ public class Suchbaum<T> {
 			else {
         		T maxVal = findMaxValue(node.left);
         		node.data = maxVal;
-        		node.left = removeTo(maxVal, node.left);
+        		node.left = remove(maxVal, node.left);
         	}
         }
         return node;
