@@ -150,20 +150,20 @@ public class Suchbaum<T> {
             node.right = removeTo(o, node.right);
         } else {
            // Fall 1: keine Kinder
-        if (node.left == null && node.right == null) {
-            node = null;
-        }
-        // Fall 2: Ein Kind
-        else if (node.left == null) {
-            node = node.right;
-        } else if (node.right == null) {
-            node = node.left;
-        }
-        // Fall 3: Zwei Kinder
-		else {
-        	T maxVal = findMaxValue(node.left);
-        	node.data = maxVal;
-        	node.left = removeTo(maxVal, node.left);
+     		if (node.left == null && node.right == null) {
+            	node = null;
+        	}
+        	// Fall 2: Ein Kind
+        	else if (node.left == null) {
+            	node = node.right;
+        	} else if (node.right == null) {
+            	node = node.left;
+        	}
+        	// Fall 3: Zwei Kinder
+			else {
+        		T maxVal = findMaxValue(node.left);
+        		node.data = maxVal;
+        		node.left = removeTo(maxVal, node.left);
         	}
         }
         return node;
