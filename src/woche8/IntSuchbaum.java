@@ -266,18 +266,14 @@ public class IntSuchbaum {
         } else if (i > node.data) {
             node.right = remove(i, node.right);
         } else {
-            // Fall 1: keine Kinder
-            if (node.left == null && node.right == null) {
-                node = null;
-            }
-            // Fall 2: Ein Kind
-            else if (node.left == null) {
-                node = node.right;
-            } else if (node.right == null) {
-                node = node.left;
-            }
-            // Fall 3: Zwei Kinder
-            else {
+            // Fall 1+2: keine Kinder + ein Kind
+            if (node.left == null | node.right == null) {
+                if (node.left == null) {
+                    node = node.right;
+                } else {
+                    node = node.left;
+                }
+            } else {// Fall 3: Zwei Kinder
                 int maxVal = findMaxValue(node.left);
                 node.data = maxVal;
                 node.left = remove(maxVal, node.left);
@@ -286,6 +282,7 @@ public class IntSuchbaum {
 
         return node;
     }
+
 
     private int findMaxValue(BaumEl node) {
         int maxValue = node.data;

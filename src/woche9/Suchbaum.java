@@ -32,24 +32,23 @@ public class Suchbaum<T> {
         }
     }
 
-	public int vergleich(T a, T b) {
-		if(comp == null) {
-			return((Comparator<T>) a).compareTo(b);
-		} else{
-			return comp.compare(a, b);
-		}
-	}
+    public int vergleich(T a, T b) {
+        if (comp == null) {
+            return ((Comparable<T>) a).compareTo(b);
+        } else {
+            return comp.compare(a, b);
+        }
+    }
 
     public Boolean contains(T o) {
         return contains(o, wurzel);
     }
 
-    
 
     private Boolean contains(T o, BaumEl node) {
         if (node == null) {
             return false;
-        } else if (vergleich(o, node.data == 0) {
+        } else if (vergleich(o, node.data) == 0) {
             return true;
         } else if (vergleich(o, node.data) < 0) {
             return contains(o, node.left);
@@ -67,7 +66,7 @@ public class Suchbaum<T> {
             BaumEl temp = new BaumEl(o);
             if (wurzel == null) {
                 wurzel = temp;
-            } else {            
+            } else {
                 insert(temp, wurzel);
             }
         }
@@ -149,26 +148,23 @@ public class Suchbaum<T> {
         } else if (vergleich(o, node.data) > 0) {
             node.right = remove(o, node.right);
         } else {
-           // Fall 1: keine Kinder
-     		if (node.left == null && node.right == null) {
-            	node = null;
-        	}
-        	// Fall 2: Ein Kind
-        	else if (node.left == null) {
-            	node = node.right;
-        	} else if (node.right == null) {
-            	node = node.left;
-        	}
-        	// Fall 3: Zwei Kinder
-			else {
-        		T maxVal = findMaxValue(node.left);
-        		node.data = maxVal;
-        		node.left = remove(maxVal, node.left);
-        	}
+            // Fall 1+2: keine Kinder + ein Kind
+            if (node.left == null | node.right == null) {
+                if (node.left == null) {
+                    node = node.right;
+                } else {
+                    node = node.left;
+                }
+            } else {// Fall 3: Zwei Kinder
+                T maxVal = findMaxValue(node.left);
+                node.data = maxVal;
+                node.left = remove(maxVal, node.left);
+            }
         }
         return node;
     }
-    private T findMaxValue(BaumEl node){
+
+    private T findMaxValue(BaumEl node) {
         T maxValue = node.data;
         while (node.right != null) {
             maxValue = node.right.data;
@@ -176,7 +172,6 @@ public class Suchbaum<T> {
         }
         return maxValue;
     }
-
 
 
     /**
