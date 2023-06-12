@@ -5,24 +5,24 @@ import java.util.NoSuchElementException;
 
 public class Iterator1DArray<T> implements Iterator<T> {
 
-    private int i = 0;
+    private int i;
     private int end;
     private T[] ar;
 
     public Iterator1DArray(T[] array) {
-        ar = array;
-        end = ar.length;
+        this(array, 0, array.length);
     }
 
     public Iterator1DArray(T[] array, int start) {
-        this(array);
-        i = start;
+        this(array, start, array.length);
     }
 
     public Iterator1DArray(T[] array, int start, int ende) {
-        this(array, start);
-        end = ende;
+        ar = array;
+	    i = start;
+	    end = ende;
     }
+
     @Override
     public boolean hasNext() {
         return i < end;
