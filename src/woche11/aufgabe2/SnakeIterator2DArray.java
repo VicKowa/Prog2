@@ -16,7 +16,7 @@ public class SnakeIterator2DArray<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        return i < ar.length & j < ar[0].length;
+        return i < ar.length & (j < ar[0].length | j >= 0);
     }
 
     @Override
