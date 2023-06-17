@@ -1,4 +1,4 @@
-package woche12;
+package woche13;
 
 import woche11.aufgabe4.*;
 
@@ -43,26 +43,27 @@ public class GenericUtil {
         }
     }
 
-    public static <T extends Comparable<T>> Folge<T> getMinima(Puffer<T> p1, Puffer<T> p2) {
+    public static <T extends Comparable<? super T>> Folge<T> getMinima(Puffer<? extends T> p1, Puffer<? extends T> p2) {
 
-        return getMinima(p1, p2, (e1, e2) -> e1.compareTo(e2));
-    }
-
-
-
-    public static <T extends Comparable<T>> Folge<T> getMinima(Puffer<T> p1, Puffer<T> p2, Comparator<T> comp) {
         Folge<T> folge = new FolgeMitDynArray<>();
-        Iterator<T> temp;
-        Iterator<T> it1, it2;
+        Iterator<? extends T> temp;
+        Iterator<? extends T> it1, it2;
 
         it1 = p1.iterator();
         it2 = p2.iterator();
+
+        compareAndInsert(it1, it2, folge, (e1, e2) -> e1.compareTo(e2));
+        return folge;
+    }
+
+    private static <T> void compareAndInsert(Iterator<? extends T> it1, Iterator<? extends T> it2, Folge<T> folge, Comparator<? super T> comp) {
+        Iterator<? extends T> temp;
         while (it1.hasNext() && it2.hasNext()) {
 
             T e1 = it1.next();
             T e2 = it2.next();
 
-            if (e1.compareTo(e2) >= 0) {
+            if (comp.compare(e1, e2) >= 0) {
                 folge.insert(e2);
             } else folge.insert(e1);
 
@@ -73,8 +74,19 @@ public class GenericUtil {
         } else temp = it2;
 
         while (temp.hasNext()) {
-            folge.insert(temp.next());
+            folge.insert((T) temp.next());
         }
+    }
+
+    public static <T> Folge<T> getMinima(Puffer<? extends T> p1, Puffer<? extends T> p2, Comparator<? super T> comp) {
+        Folge<T> folge = new FolgeMitDynArray<>();
+        Iterator<? extends T> temp;
+        Iterator<? extends T> it1, it2;
+
+        it1 = p1.iterator();
+        it2 = p2.iterator();
+
+        compareAndInsert(it1, it2, folge, comp);
 
         return folge;
     }
