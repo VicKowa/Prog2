@@ -48,8 +48,6 @@ public class GenericUtil {
         return getMinima(p1, p2, (e1, e2) -> e1.compareTo(e2));
     }
 
-
-
     public static <T extends Comparable<T>> Folge<T> getMinima(Puffer<T> p1, Puffer<T> p2, Comparator<T> comp) {
         Folge<T> folge = new FolgeMitDynArray<>();
         Iterator<T> temp;
@@ -57,12 +55,13 @@ public class GenericUtil {
 
         it1 = p1.iterator();
         it2 = p2.iterator();
+
         while (it1.hasNext() && it2.hasNext()) {
 
             T e1 = it1.next();
             T e2 = it2.next();
 
-            if (e1.compareTo(e2) >= 0) {
+            if (comp.compare(e1, e2) >= 0) {
                 folge.insert(e2);
             } else folge.insert(e1);
 
@@ -75,7 +74,6 @@ public class GenericUtil {
         while (temp.hasNext()) {
             folge.insert(temp.next());
         }
-
         return folge;
     }
 
