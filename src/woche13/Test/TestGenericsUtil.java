@@ -96,4 +96,6 @@ public class TestGenericsUtil {
         Folge<Person> f = GenericUtil.getMinima(ps,pb, comp);
         System.out.println(f);
     }
+
+
 }

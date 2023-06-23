@@ -2,6 +2,7 @@ package woche12.Tests;
 
 import org.junit.jupiter.api.Test;
 import woche11.aufgabe4.Folge;
+import woche11.aufgabe4.FolgeMitDynArray;
 import woche11.aufgabe4.Puffer;
 import woche11.aufgabe4.SchlangeMitEVL;
 import woche12.GenericUtil;
@@ -30,5 +31,13 @@ public class TestGenericUtil {
 
         Folge<Integer> f = GenericUtil.getMinima(p1,p2);
         System.out.println(f);
+    }
+
+    @Test
+    void testInsertInto() {
+        Puffer<Integer[][][]> p = new FolgeMitDynArray<>();
+        Integer[][][][] ar ={{{{2}}},{{{4}}}};
+
+        GenericUtil.insertInto(p, ar);
     }
 }

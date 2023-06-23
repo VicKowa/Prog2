@@ -1,6 +1,7 @@
 package woche13;
 
 import woche11.aufgabe4.*;
+import woche11.aufgabe4.FolgeMitDynArray;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -46,7 +47,6 @@ public class GenericUtil {
     public static <T extends Comparable<? super T>> Folge<T> getMinima(Puffer<? extends T> p1, Puffer<? extends T> p2) {
 
         Folge<T> folge = new FolgeMitDynArray<>();
-        Iterator<? extends T> temp;
         Iterator<? extends T> it1, it2;
 
         it1 = p1.iterator();
@@ -57,7 +57,6 @@ public class GenericUtil {
     }
 
     private static <T> void compareAndInsert(Iterator<? extends T> it1, Iterator<? extends T> it2, Folge<T> folge, Comparator<? super T> comp) {
-        Iterator<? extends T> temp;
         while (it1.hasNext() && it2.hasNext()) {
 
             T e1 = it1.next();
@@ -69,12 +68,12 @@ public class GenericUtil {
 
         }
 
-        if (it1.hasNext()) {
-            temp = it1;
-        } else temp = it2;
+        while(it1.hasNext()) {
+            folge.insert(it1.next());
+        }
 
-        while (temp.hasNext()) {
-            folge.insert((T) temp.next());
+        while (it2.hasNext()) {
+            folge.insert(it2.next());
         }
     }
 
