@@ -3,7 +3,7 @@ package woche11.aufgabe4;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class SchlangeMitEVL<T> implements Schlange<T> {
+public class SchlangeMitEVL<T> implements Schlange<T>, Iterable<T> {
 
     private EVL<T> schlange;
 

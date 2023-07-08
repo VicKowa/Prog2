@@ -3,7 +3,7 @@ package woche11.aufgabe4;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class FolgeMitDynArray<T> implements Folge<T> {
+public class FolgeMitDynArray<T> implements Folge<T>, Iterable<T>{
 
     DynArray<T> folge;
 

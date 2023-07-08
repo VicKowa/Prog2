@@ -1,12 +1,12 @@
 package woche13;
 
-import Woche5.DynArray;
-import woche11.aufgabe4.Puffer;
-import woche7.Folge;
+import woche11.aufgabe4.DynArray;
+import woche11.aufgabe4.Folge;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class FolgeMitDynArray<T> implements Folge<T> {
+public class FolgeMitDynArray<T> implements Folge<T>, Iterable<T> {
 
     DynArray<T> folge;
 
@@ -38,6 +38,11 @@ public class FolgeMitDynArray<T> implements Folge<T> {
     @Override
     public T remove() throws NoSuchElementException {
         return folge.removeFirst();
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return folge.iterator();
     }
 
     @Override
@@ -78,7 +83,7 @@ public class FolgeMitDynArray<T> implements Folge<T> {
         }
     }
     
-    public void addAll(Puffer<? extends T> puffer) {
+   /* public void addAll(Puffer<? extends T> puffer) {
         for (T element: puffer) {
             this.insert(element);
         }
@@ -89,4 +94,6 @@ public class FolgeMitDynArray<T> implements Folge<T> {
             puffer.insert(get(0));
         }
     }
+
+    */
 }
